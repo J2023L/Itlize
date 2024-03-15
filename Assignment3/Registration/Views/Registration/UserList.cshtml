@@ -1,0 +1,47 @@
+﻿@model List<Registration.Models.User>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserList</title>
+</head>
+<body>
+    <h2>User List</h2>
+    @using (Html.BeginForm("GetUserInfo", "Registration", FormMethod.Get))
+    {
+        <input type="text" name="UserN" placeholder="Enter user name" />
+        <input type="submit" value="Search" />
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.EmailAddress</td>
+                    <td>@user.Password</td>
+                </tr>
+
+            }
+        </tbody>
+
+
+    </table>
+
+    <a href="@Url.Action("Register", "Registration")" class="btn btn-primary">Back to Registration Page</a>
+
+</body>
+</html>

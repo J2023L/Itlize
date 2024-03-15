@@ -1,0 +1,129 @@
+﻿@model Registration.Models.User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body{
+            background-color: darkslateblue;
+        }
+
+        .container {
+            width: 40rem;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        #imagePreviewContainer {
+            width: 50px;
+            height: 50px;
+            margin-top: 10px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: dimgrey;
+        }
+
+        #imagePreview {
+            width: 100%;
+            height: auto;
+        }
+
+        #submitButton {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .mytable{
+            margin-bottom: 20px;
+        }
+
+        .mytable td{
+            padding: 0 60px 0 0;
+        }
+
+        #SecTr {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("RegisterUser", "Registration", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <h5>Register as User</h5>
+                    <button type="button" class="close" aria-label="Close" onclick="window.close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table class="mytable">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div id="SecTr">
+                                    <b>Image Preview</b> <br />
+                                    <div id="imagePreviewContainer">
+                                        <img id="imagePreview" src="#" />
+                                    </div>
+                                    <b>Your Profile Pic </b><br />
+                                    <input type="file" id="fileInput" name="fileInput" accept="image/*" onchange="previewImage(event)" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>UserName:</b></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.UserName, new { placeholder = "User Name" }) <br />
+                                <span class="error-message">@Html.ValidationMessageFor(model => model.UserName)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Email Address:</b></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.EmailAddress, new { placeholder = "Email Id" }) <br />
+                                <span class="error-message">@Html.ValidationMessageFor(model => model.EmailAddress)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Password:</b></td>
+                            <td>
+                                @Html.PasswordFor(model => model.Password, new { placeholder = "Password" }) <br />
+                                <span class="error-message">@Html.ValidationMessageFor(model => model.Password)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Confirm Password:</b></td>
+                            <td>
+                                @Html.PasswordFor(model => model.ConfirmPW, new { placeholder = "Password" }) <br />
+                                <span class="error-message">@Html.ValidationMessageFor(model => model.ConfirmPW)</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="card-footer bg-transparent">
+                        <input id="submitButton" type="submit" value="Sign up" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('imagePreview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
